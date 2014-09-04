@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title%} My blog {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div id='header'>
+<header>
+    <h1>
+        My first blog!
+    </h1>
+</header>
+</div>
+
+
+    <nav id='navigation'>
+	<ul>
+<li><a href="{% url 'blog:about' %}">За автора</a></li>
+        <li><a href="{% url 'blog:publications' %}">Всички публикации</a></li>
+        <li><a href="{% url 'blog:contacts'  %}">Връзка</a></li>
+	</ul>
+</nav>
+
+</body>
+</html>
