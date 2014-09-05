@@ -16,12 +16,12 @@
         <div id="navigation">
             {% block nav-global %}
               <ul>
-                <li><a href="{% url 'blog:home_page' %}" >Начало</a></li>
-                <li><a href="{% url 'blog:publications' %}">Всички публикации</a></li>
-                <li><a href="{% url 'blog:contacts' %}">Контакти</a></li>
+                <li><a href="{% url 'blog:home_page' %}">Home</a></li>
+                <li><a href="{% url 'blog:publications' %}">All Posts</a></li>
+                <li><a href="{% url 'blog:contacts' %}">Contacts</a></li>
                 {% if user.is_staff %}
-                <li><a href="{% url 'admin:index' %}">Админ панел</a></li>
-                <li><a href="{% url 'admin:blog_post_add' %}">Добави публикация</a></li>
+                <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
+                <li><a href="{% url 'admin:blog_post_add' %}">Add post</a></li>
                 {% endif %}
                   </ul>
             {% endblock %}

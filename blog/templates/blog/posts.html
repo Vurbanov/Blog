@@ -1,7 +1,7 @@
 {% extends 'blog/base.html'%}
-{% load staticfiles %}
-       {% block links%}  <link rel="stylesheet" type="text/css" href="{% static 'blog/style_post.css' %}" /> {% endblock %}
-        {% block content %}
+
+
+    {% block content %}
 
 <div class="title">{{ post.title }}</div>
 <ul>
@@ -10,17 +10,17 @@
 </ul>
 
 {% if comments %}
-    <p>Comments:</p>
+    <p id="start_of_comments">Comments:</p>
 {% endif %}
 
 {% for comment in comments %}
     <div class="comment">
-        <div class="information">{{ comment.pub_date }} | {{ comment.author }}</div>
-        <div class="body">{{ comment.body|linebreaks }}</div>
+        <div class="information">{{ comment.pub_date }} | Author: {{ comment.author }}</div>
+        <div class="comment_body">{{ comment.body|linebreaks }}</div>
     </div>
 {% endfor %}
 
-<div id="addc">Add a comment</div>
+<div id="addc">Add a comment:</div>
 <form action="{% url 'blog:add_comment' post.id %}" method="POST">{% csrf_token %}
     <div id="cform">
         Name: {{ form.author }} <br>

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from blog.forms import CommentForm
 from blog.models import Post, Comments
-from django.core.urlresolvers import reverse
+
 
 def home_page(request):
-    posts = Post.objects.all().order_by("-pub_date")[:6]
+    posts = Post.objects.all().order_by("-pub_date")[:1]
     return render(request, "blog/index.html", {'posts': posts, 'user': request.user})
 
 def post(request, post_id):
@@ -25,7 +25,7 @@ def add_comment(request, pk):
         comment = cf.save(commit=False)
         comment.author = author
         comment.save()
-    return redirect('blog/posts.html', args=[pk])
+    return redirect('posts.html', args=[pk])
 
 def publications(request):
     posts = Post.objects.all().order_by('-pub_date')

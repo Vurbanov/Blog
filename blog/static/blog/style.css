@@ -1,9 +1,12 @@
 body{
-padding-left:20%;
-padding-right:10%;
+padding-left:15%;
+padding-right:15%;
 padding-top:2%;
 font-family: 'Times New Roman', Times, serif;
 
+}
+a{
+text-decoration:none;
 }
 #navigation ul,
 #navigation li,
@@ -115,4 +118,55 @@ header h1 {
 color:black;
 font-size: 60px;
 text-align:center;
+}
+
+.main a:link {
+    color: #000000;
+}
+
+
+.main a:visited {
+    color: #000000;
+}
+
+
+.main a:hover {
+    color: #000000;
+    font-size:35px;
+}
+
+
+.main a:active {
+    color: #000000;
+}
+.title {
+font-size:30px;
+text-align:left;
+}
+.body {
+text-align:justify;
+font-size:25px;
+}
+.one_post {
+display:inline;
+}
+.information{
+font-size:18px;
+}
+.comment_body{
+font-size: 20px;
+
+}
+#start_of_comments{
+font-size:25px;
+font-weight:bold;
+}
+
+#addc {
+font-size:20px;
+}
+
+
+#view_comments{
+font-size:20px;
 }
