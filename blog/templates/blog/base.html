@@ -1,27 +1,36 @@
+{% load staticfiles %}
+
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}" />
     <title>{% block title%} My blog {% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    {% block links%}{% endblock %}
 </head>
 <body>
-<div id='header'>
-<header>
-    <h1>
-        My first blog!
-    </h1>
-</header>
-</div>
+<header><h1>My Blog</h1></header>
 
+    <div id="container">
+        <div id="navigation">
+            {% block nav-global %}
+              <ul>
+                <li><a href="{% url 'blog:home_page' %}" >Начало</a></li>
+                <li><a href="{% url 'blog:publications' %}">Всички публикации</a></li>
+                <li><a href="{% url 'blog:contacts' %}">Контакти</a></li>
+                {% if user.is_staff %}
+                <li><a href="{% url 'admin:index' %}">Админ панел</a></li>
+                <li><a href="{% url 'admin:blog_post_add' %}">Добави публикация</a></li>
+                {% endif %}
+                  </ul>
+            {% endblock %}
+        </div>
 
-    <nav id='navigation'>
-	<ul>
-<li><a href="{% url 'blog:about' %}">За автора</a></li>
-        <li><a href="{% url 'blog:publications' %}">Всички публикации</a></li>
-        <li><a href="{% url 'blog:contacts'  %}">Връзка</a></li>
-	</ul>
-</nav>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 
 </body>
 </html>
