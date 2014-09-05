@@ -21,9 +21,9 @@
 {% endfor %}
 
 <div id="addc">Add a comment:</div>
-<form action="{% url 'blog:add_comment' post.id %}" method="POST">{% csrf_token %}
+<form action="{% url 'blog:post' post.id %}" method="POST">{% csrf_token %}
     <div id="cform">
-        Name: {{ form.author }} <br>
+        Name: {{ form.author }} <br />
         Email: {{form.email}}
         <p>{{ form.body|linebreaks }}</p>
     </div>

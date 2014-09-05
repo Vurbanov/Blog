@@ -8,24 +8,22 @@ def home_page(request):
     return render(request, "blog/index.html", {'posts': posts, 'user': request.user})
 
 def post(request, post_id):
+    if request.method == "POST":
+        p = request.POST
+        author = "Anonymous"
+        if p["author"]:
+            author = p["author"]
+        comment = Comments(post=Post.objects.get(pk=post_id))
+        comment_form = CommentForm(request.POST, instance=comment)
+        comment_form.fields["author"].required = False
+        comment = comment_form.save(commit=False)
+        comment.author = author
+        comment.save()
+        return redirect('blog/posts.html', args=(post_id,))
     post = Post.objects.get(pk=post_id)
     comments = Comments.objects.filter(post=post)
     context = {'post': post, 'user': request.user, 'comments': comments, 'form': CommentForm()}
     return render(request, 'blog/posts.html', context)
-
-def add_comment(request, pk):
-    p = request.POST
-    if 'body' in p and p["body"]:
-        author = "Anonymous"
-        if p["author"]:
-            author = p["author"]
-        comment = Comments(post=Post.objects.get(pk=pk))
-        cf = CommentForm(p, instance=comment)
-        cf.fields["author"].required = False
-        comment = cf.save(commit=False)
-        comment.author = author
-        comment.save()
-    return redirect('posts.html', args=[pk])
 
 def publications(request):
     posts = Post.objects.all().order_by('-pub_date')
