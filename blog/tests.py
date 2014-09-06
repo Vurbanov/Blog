@@ -36,4 +36,33 @@ class CorrectTemplateTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/results.html')
 
+class DisplayPostsCorrectly(TestCase):
+
+    def setUp(self):
+        self.post_one = Post.objects.create(title='Test_One', author='Tester_One', category='Test_One', body_text='Just Testing One')
+        self.post_two = Post.objects.create(title='Test_Two', author='Tester_Two', category='Test_Two', body_text='Just Testing Two')
+        self.post_three = Post.objects.create(title='Test_Three', author='Tester_Three', category='Test_Three', body_text='Just Testing Three')
+
+    def test_if_all_posts_are_listed_in_publications(self):
+        posts = Post.objects.all()
+        response = self.client.post('/blog/publications/', {'posts':posts})
+        self.assertContains(response, self.post_one.author)
+        self.assertContains(response, self.post_one.title)
+        self.assertContains(response, self.post_one.category)
+        self.assertContains(response, self.post_two.author)
+        self.assertContains(response, self.post_two.title)
+        self.assertContains(response, self.post_two.category)
+        self.assertContains(response, self.post_three.author)
+        self.assertContains(response, self.post_three.title)
+        self.assertContains(response, self.post_three.category)
+
+    def test_if_at_home_page_the_last_post_added_is_shown(self):
+        response = self.client.get('/blog/')
+        self.assertContains(response, self.post_three.author)
+        self.assertContains(response, self.post_three.title)
+        self.assertContains(response, self.post_three.category)
+        self.assertContains(response, self.post_three.body_text)
+
+
+
 
