@@ -173,3 +173,7 @@ font-size:20px;
 .contacts{
 font-size:25px;
 }
+
+#search {
+float:right;
+}
