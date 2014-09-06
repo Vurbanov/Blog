@@ -11,16 +11,10 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comments(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=60)
     body = models.TextField()
     post = models.ForeignKey(Post)
     email = models.EmailField()
-
-
-
-
-
-
-

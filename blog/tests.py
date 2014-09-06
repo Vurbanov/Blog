@@ -1,6 +1,7 @@
 from django.test import TestCase
 from blog.models import Post, Comments
 
+
 class CorrectTemplateTests(TestCase):
 
     def setUp(self):
@@ -25,7 +26,6 @@ class CorrectTemplateTests(TestCase):
         self.assertContains(response, self.post.category)
         self.assertContains(response, self.post.body_text)
 
-
     def test_uses_publications_template(self):
         response = self.client.get('/blog/publications/')
         self.assertEqual(response.status_code, 200)
@@ -38,6 +38,7 @@ class CorrectTemplateTests(TestCase):
         self.assertContains(response, self.post.title)
         self.assertContains(response, self.post.author)
         self.assertContains(response, self.post.category)
+
 
 class DisplayPostsCorrectlyTests(TestCase):
 
@@ -66,6 +67,7 @@ class DisplayPostsCorrectlyTests(TestCase):
         self.assertContains(response, self.post_three.category)
         self.assertContains(response, self.post_three.body_text)
 
+
 class DisplayCommentsTests(TestCase):
 
     def setUp(self):
@@ -80,6 +82,7 @@ class DisplayCommentsTests(TestCase):
         self.assertContains(response, self.comment.body)
         self.assertNotContains(response, self.comment_two.author)
         self.assertNotContains(response, self.comment_two.body)
+
 
 class SearchTests(TestCase):
 
@@ -103,7 +106,3 @@ class SearchTests(TestCase):
         self.assertContains(response, self.post_one.category)
         self.assertNotContains(response, self.post_two.category)
         self.assertNotContains(response, self.post_three.category)
-
-
-
-

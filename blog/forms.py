@@ -6,4 +6,3 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comments
         exclude = ["post"]
-
