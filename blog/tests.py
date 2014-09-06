@@ -24,9 +24,16 @@ class CorrectTemplateTests(TestCase):
         self.assertContains(response, self.post.title)
         self.assertContains(response, self.post.category)
         self.assertContains(response, self.post.body_text)
-        
+
 
     def test_uses_publications_template(self):
         response = self.client.get('/blog/publications/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/publications.html')
+
+    def test_uses_results_template(self):
+        response = self.client.get('/blog/search/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/results.html')
+
+
