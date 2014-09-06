@@ -32,9 +32,12 @@ class CorrectTemplateTests(TestCase):
         self.assertTemplateUsed(response, 'blog/publications.html')
 
     def test_uses_results_template(self):
-        response = self.client.get('/blog/search/')
+        response = self.client.post('/blog/search/', {'searched_post': self.post.title})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/results.html')
+        self.assertContains(response, self.post.title)
+        self.assertContains(response, self.post.author)
+        self.assertContains(response, self.post.category)
 
 class DisplayPostsCorrectlyTests(TestCase):
 
@@ -78,6 +81,28 @@ class DisplayCommentsTests(TestCase):
         self.assertNotContains(response, self.comment_two.author)
         self.assertNotContains(response, self.comment_two.body)
 
+class SearchTests(TestCase):
+
+    def setUp(self):
+        self.post_one = Post.objects.create(title='Test_One', author='Tester_One', category='Test_One', body_text='Just Testing One')
+        self.post_two = Post.objects.create(title='Test_Two', author='Tester_Two', category='Test_Two', body_text='Just Testing Two')
+        self.post_three = Post.objects.create(title='Test_Three', author='Tester_Three', category='Test_Three', body_text='Just Testing Three')
+
+    def test_check_if_search_finds_correct_post_by_title(self):
+        response = self.client.post('/blog/search/', {'searched_post': self.post_one.title})
+        self.assertContains(response, self.post_one.title)
+        self.assertContains(response, self.post_one.author)
+        self.assertContains(response, self.post_one.category)
+        self.assertNotContains(response, self.post_two.author)
+        self.assertNotContains(response, self.post_three.author)
+
+    def test_check_if_search_finds_correct_post_by_category(self):
+        response = self.client.post('/blog/search/', {'searched_post': self.post_one.category})
+        self.assertContains(response, self.post_one.title)
+        self.assertContains(response, self.post_one.author)
+        self.assertContains(response, self.post_one.category)
+        self.assertNotContains(response, self.post_two.category)
+        self.assertNotContains(response, self.post_three.category)
 
 
 
