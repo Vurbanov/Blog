@@ -6,7 +6,8 @@ from django.db.models import Q
 
 def home_page(request):
     posts = Post.objects.all().order_by("-pub_date")[:1]
-    return render(request, "blog/index.html", {'posts': posts, 'user': request.user})
+    return render(request, "blog/index.html", {'posts': posts,
+                                               'user': request.user})
 
 
 def post(request, post_id):
@@ -24,13 +25,15 @@ def post(request, post_id):
         return redirect('blog/posts.html', args=(post_id,))
     post = Post.objects.get(pk=post_id)
     comments = Comments.objects.filter(post=post)
-    context = {'post': post, 'user': request.user, 'comments': comments, 'form': CommentForm()}
+    context = {'post': post, 'user': request.user, 'comments': comments,
+               'form': CommentForm()}
     return render(request, 'blog/posts.html', context)
 
 
 def publications(request):
     posts = Post.objects.all().order_by('-pub_date')
-    return render(request, 'blog/publications.html', {'posts': posts, 'user': request.user})
+    return render(request, 'blog/publications.html', {'posts': posts,
+                                                      'user': request.user})
 
 
 def contacts(request):
@@ -39,6 +42,8 @@ def contacts(request):
 
 def search(request):
     searched_string = request.POST.get('searched_post', "")
-    posts = Post.objects.filter(Q(title__icontains=searched_string)
-                                | Q(category__icontains=searched_string)).order_by('-pub_date')
-    return render(request, 'blog/results.html', {'posts': posts, 'user':request.user})
+    posts = Post.objects.filter(
+        Q(title__icontains=searched_string) | Q(category__icontains=searched_string))\
+        .order_by('-pub_date')
+    return render(request, 'blog/results.html', {'posts': posts,
+                                                 'user': request.user})
