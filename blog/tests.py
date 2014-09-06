@@ -36,7 +36,7 @@ class CorrectTemplateTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/results.html')
 
-class DisplayPostsCorrectly(TestCase):
+class DisplayPostsCorrectlyTests(TestCase):
 
     def setUp(self):
         self.post_one = Post.objects.create(title='Test_One', author='Tester_One', category='Test_One', body_text='Just Testing One')
@@ -45,7 +45,7 @@ class DisplayPostsCorrectly(TestCase):
 
     def test_if_all_posts_are_listed_in_publications(self):
         posts = Post.objects.all()
-        response = self.client.post('/blog/publications/', {'posts':posts})
+        response = self.client.post('/blog/publications/', {'posts' : posts})
         self.assertContains(response, self.post_one.author)
         self.assertContains(response, self.post_one.title)
         self.assertContains(response, self.post_one.category)
@@ -62,6 +62,22 @@ class DisplayPostsCorrectly(TestCase):
         self.assertContains(response, self.post_three.title)
         self.assertContains(response, self.post_three.category)
         self.assertContains(response, self.post_three.body_text)
+
+class DisplayCommentsTests(TestCase):
+
+    def setUp(self):
+        self.post = Post.objects.create(title='Test', author='Tester', category='Test', body_text='Just Testing')
+        self.comment = Comments.objects.create(author='Tester', email='test@testing.com', body='Nice Test', post=self.post)
+        self.post_two = Post.objects.create(title='Test_Two', author='Tester_Two', category='Test_Two', body_text='Just Testing Two')
+        self.comment_two = Comments.objects.create(author='Tester_Second', email='test2@testing.com', body='Nice Test!!', post=self.post_two)
+
+    def test_comment_display_at_correct_post(self):
+        response = self.client.get('/blog/' + str(self.post.id) + '/')
+        self.assertContains(response, self.comment.author)
+        self.assertContains(response, self.comment.body)
+        self.assertNotContains(response, self.comment_two.author)
+        self.assertNotContains(response, self.comment_two.body)
+
 
 
 
