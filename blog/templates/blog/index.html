@@ -18,6 +18,10 @@
         {% endfor %}
     </ul>
     </div>
-
-
+<div id="search'">
+    <form action="{% url 'blog:search' %}" method="post">{% csrf_token %}
+    <input name="searched_post" type="text" placeholder="Enter title or category for search">
+    <input type="submit" value="Search">
+        </form>
+</div>
 {% endblock %}

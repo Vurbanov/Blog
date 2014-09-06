@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from blog.forms import CommentForm
 from blog.models import Post, Comments
+from django.db.models import Q
 
 
 def home_page(request):
@@ -32,3 +33,7 @@ def publications(request):
 def contacts(request):
     return render(request, 'blog/contacts.html', {'user': request.user})
 
+def search(request):
+    searched_string = request.POST.get('searched_post',"")
+    posts = Post.objects.filter(Q(title__icontains=searched_string)|Q(category__icontains=searched_string)).order_by('-pub_date')
+    return render(request, 'blog/results.html', {'posts': posts, 'user':request.user})
